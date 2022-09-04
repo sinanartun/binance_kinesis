@@ -7,8 +7,8 @@ import json
 import os
 
 data_stream_name = os.getenv('data_stream_name')
-
-kinesis = boto3.client('kinesis')
+region_name = os.getenv('region_name')
+kinesis = boto3.client('kinesis', region_name =region_name)
 
 
 async def main():
