@@ -6,9 +6,8 @@ import datetime
 import json
 import os
 
-data_stream_name = os.getenv('data_stream_name')
-region_name = os.getenv('region_name')
-kinesis = boto3.client('kinesis', region_name =region_name)
+STREAM_NAME = os.getenv('STREAM_NAME')
+kinesis = boto3.client('kinesis')
 
 
 async def main():
@@ -32,7 +31,7 @@ async def main():
                 "ts": str(timestamp),
                 "m": int(maker),
             }
-            response = kinesis.put_record(StreamName=data_stream_name, Data=json.dumps(dic), PartitionKey=str(partition_key))
+            response = kinesis.put_record(StreamName=STREAM_NAME, Data=json.dumps(dic), PartitionKey=str(partition_key))
 
     await client.close_connection()
 
