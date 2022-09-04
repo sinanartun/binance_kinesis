@@ -4,6 +4,9 @@ from binance import AsyncClient, BinanceSocketManager
 import random
 import datetime
 import json
+import os
+
+data_stream_name = os.getenv('data_stream_name')
 
 kinesis = boto3.client('kinesis')
 
@@ -29,7 +32,7 @@ async def main():
                 "ts": str(timestamp),
                 "m": int(maker),
             }
-            response = kinesis.put_record(StreamName='binancedatastream', Data=json.dumps(dic), PartitionKey=str(partition_key))
+            response = kinesis.put_record(StreamName=data_stream_name, Data=json.dumps(dic), PartitionKey=str(partition_key))
 
     await client.close_connection()
 
